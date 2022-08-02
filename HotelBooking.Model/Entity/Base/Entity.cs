@@ -1,5 +1,6 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using System.Text.Json.Serialization;
 
 namespace HotelBooking.Models.Entity.Base
 {
@@ -12,12 +13,15 @@ namespace HotelBooking.Models.Entity.Base
         public DateTime CreatedOn { get; set; }
 
         [BsonElement("CreatedBy")]
-        public string CreatedBy { get; set; }
+        public string? CreatedBy { get; set; }
 
         [BsonElement("updatedOn")]
-        public DateTime UpdatedOn { get; set; }
+        public DateTime? UpdatedOn { get; set; }
 
         [BsonElement("UpdatedBy")]
-        public string UpdatedBy { get; set; }
+        public string? UpdatedBy { get; set; }
+
+        [BsonElement("isDeleted"), JsonIgnore]
+        public bool IsDeleted { get; set; }
     }
 }

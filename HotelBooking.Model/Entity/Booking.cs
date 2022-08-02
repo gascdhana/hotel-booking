@@ -8,26 +8,29 @@ namespace HotelBooking.Models.Entity
     [BsonIgnoreExtraElements]
     public class Booking : Base.Entity
     {
-        [BsonElement("hotelId"), BsonRepresentation(BsonType.ObjectId), Required(AllowEmptyStrings = false, ErrorMessage = "Hotel Id cannot be null or empty")]
-        public string? HotelId { get; set; }
+        [BsonElement("hotelId"), BsonRepresentation(BsonType.ObjectId)]
+        public string HotelId { get; set; }
 
-        [BsonElement("roomId"), BsonRepresentation(BsonType.ObjectId), Required(AllowEmptyStrings = false, ErrorMessage = "RoomId cannot be null or empty")]
-        public string? RoomId { get; set; }
+        [BsonElement("roomId"), BsonRepresentation(BsonType.ObjectId)]
+        public string RoomId { get; set; }
 
         [BsonElement("bookingEmailId"), Required(AllowEmptyStrings = false, ErrorMessage = "Booking email cannot be null or empty")]
-        public string? BookingEmaiId { get; set; }
+        public string BookingEmaiId { get; set; }
 
-        [BsonElement("StartDate"), Required(ErrorMessage = "Hotel name cannot be null or empty")]
-        public DateTime? StartDate { get; set; }
+        [BsonElement("StartDate")]
+        public DateTime StartDate { get; set; }
 
         [BsonElement("endDate")]
-        public DateTime? EndDate { get; set; }
+        public DateTime EndDate { get; set; }
 
         [BsonElement("guests")]
         public List<Guest> Guests { get; set; } = new List<Guest>();
         
         [BsonElement("receipt")]
-        public Receipt? Receipt { get; set; }
+        public Receipt Receipt { get; set; }
+
+        [BsonElement("cancelReason")]
+        public string CancelReason { get; set; }
     }
 
     public class Guest

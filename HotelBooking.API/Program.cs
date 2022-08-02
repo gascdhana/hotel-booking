@@ -1,3 +1,7 @@
+using HotelBooking.Data.Mongo.Configuration;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Google;
+
 namespace HotelBooking.API
 {
     public static class Program
@@ -5,8 +9,6 @@ namespace HotelBooking.API
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-            var configuration = builder.Configuration;
-
             // Add services to the container.
 
             builder.Services.AddControllers();
@@ -14,11 +16,23 @@ namespace HotelBooking.API
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            //builder.Services.AddAuthentication("Google").AddGoogle(googleOptions =>
-            //{
-            //    googleOptions.ClientId = configuration["Authentication:Google:client_id"];
-            //    googleOptions.ClientSecret = configuration["Authentication:Google:client_secret"];
-            //});
+
+            //Register services
+            builder.Services.ConfigureDatabase(builder.Configuration);
+
+
+            builder.Services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
+                options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            })
+            .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)
+            .AddGoogle(googleOptions =>
+            {
+                googleOptions.ClientId = builder.Configuration["Authentication:Google:client_id"];
+                googleOptions.ClientSecret = builder.Configuration["Authentication:Google:client_secret"];
+            });
 
             var app = builder.Build();
 
